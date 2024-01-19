@@ -1,0 +1,45 @@
+- name: Disable NodeJS default Version
+  ansible.builtin.shell: dnf module disable nodejs -y
+
+- name: Enable NodeJS 18 Version
+  ansible.builtin.shell: dnf module enable nodejs:18 -y
+
+- name: Install NodeJS
+  ansible.builtin.dnf:
+    name: nodejs
+    state: present
+
+- name: Import SystemD
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
+
+- name: Import Common Role - App Pre-requisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-prereq
+  vars:
+    app_dir: "{{app_dir}}"
+    component: "{{component}}"
+    app_user: "{{app_user}}"
+
+- name: Download NodeJS Dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: Install New Relic NodeJS Library
+  ansible.builtin.shell: npm install newrelic --save
+  args:
+    chdir: /app
+
+- name: Import Schema
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: schema-load
+
+- name: Import Observability
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: observability
+

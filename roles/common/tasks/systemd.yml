@@ -1,0 +1,13 @@
+- name: Add Application User
+  ansible.builtin.user:
+    name: "{{app_user}}"
+
+- name: Copy App Service File
+  ansible.builtin.template:
+    src: "{{component}}.service"
+    dest: /etc/systemd/system/{{component}}.service
+
+- name: Copy App StartUP Script
+  ansible.builtin.template:
+    src: nodejs.sh
+    dest: /app/nodejs.sh
