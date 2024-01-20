@@ -19,8 +19,8 @@
     name: common
     tasks_from: systemd
 
-- name: Download Python Dependencies
-  ansible.builtin.shell: pip3.6 install -r requirements.txt
+- name: Download GoLang Dependencies
+  ansible.builtin.shell: go mod init dispatch ; go get ;  go build
   args:
     chdir: "{{app_dir}}"
 
