@@ -5,4 +5,4 @@ is_rsyslog_needed: yes
 app_dir: /app
 app_user: roboshop
 service_name: cart
-schema_load: false
+schema_needed: false

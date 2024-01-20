@@ -27,7 +27,6 @@
     name: common
     tasks_from: systemd
 
-
 - name: Download NodeJS Dependencies
   ansible.builtin.shell: npm install
   args:
