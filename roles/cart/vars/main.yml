@@ -1,8 +1,8 @@
-component: user
-log_file: /var/log/user.log
+component: cart
+log_file: /var/log/cart.log
 is_rsyslog_needed: yes
 
 app_dir: /app
 app_user: roboshop
-service_name: user
+service_name: cart
 schema_load: false

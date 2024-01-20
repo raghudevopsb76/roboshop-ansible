@@ -26,17 +26,18 @@
 - name: Download NodeJS Dependencies
   ansible.builtin.shell: npm install
   args:
-    chdir: /app
+    chdir: "{{app_dir}}"
 
 - name: Install New Relic NodeJS Library
   ansible.builtin.shell: npm install newrelic --save
   args:
-    chdir: /app
+    chdir: "{{app_dir}}"
 
 - name: Import Schema
   ansible.builtin.import_role:
     name: common
     tasks_from: schema-load
+  when: schema_needed
 
 - name: Import Observability
   ansible.builtin.import_role:

@@ -9,3 +9,6 @@
     state: installed
 
 ## Load Schema - TBD
+#- name: Load Schema:
+#  ansible.builtin.shell: mongo --host MONGODB-SERVER-IPADDRESS </app/schema/catalogue.js
+
