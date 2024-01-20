@@ -1,0 +1,8 @@
+component: dispatch
+log_file: /var/log/dispatch.log
+is_rsyslog_needed: yes
+
+app_dir: /app
+app_user: roboshop
+service_name: dispatch
+schema_needed: false
