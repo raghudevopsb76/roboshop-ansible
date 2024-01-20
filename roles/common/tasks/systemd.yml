@@ -1,7 +1,3 @@
-- name: Add Application User
-  ansible.builtin.user:
-    name: "{{app_user}}"
-
 - name: Copy App Service File
   ansible.builtin.template:
     src: "{{component}}.service"
