@@ -1,6 +1,7 @@
 - name: Add Application User
   ansible.builtin.user:
     name: "{{app_user}}"
+  when: app_user != "root"
 
 - name: Delete old app directory
   ansible.builtin.file:
