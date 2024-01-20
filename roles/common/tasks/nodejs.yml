@@ -1,7 +1,7 @@
 - name: Check NodeJS
   ansible.builtin.shell: type node
   ignore_errors: yes
-  out: node_stat
+  register: node_stat
 
 - name: Disable NodeJS default Version
   ansible.builtin.shell: dnf module disable nodejs -y
