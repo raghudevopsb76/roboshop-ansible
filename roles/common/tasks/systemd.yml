@@ -3,7 +3,9 @@
     src: "{{component}}.service"
     dest: /etc/systemd/system/{{component}}.service
 
-- name: Copy App StartUP Script
-  ansible.builtin.template:
-    src: nodejs.sh
-    dest: /app/nodejs.sh
+# TBD
+#- name: Copy App StartUP Script
+#  ansible.builtin.template:
+#    src: "{{ app_type }}".sh
+#    dest: /app/{{ app_type }}.sh
+

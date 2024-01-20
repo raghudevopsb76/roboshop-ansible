@@ -1,0 +1,38 @@
+# later this becomes check for java directly , until CI comes
+- name: Check Maven
+  ansible.builtin.shell: type mvn
+  ignore_errors: yes
+  register: mvn_stat
+
+- name: Install Maven
+  ansible.builtin.dnf:
+    name: maven
+    state: present
+  when: mvn_stat != 0
+
+- name: Import Common Role - App Pre-requisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-prereq
+
+- name: Import SystemD
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
+
+- name: Download Maven Dependencies
+  ansible.builtin.shell: mvn clean package
+  args:
+    chdir: "{{app_dir}}"
+
+- name: Import Schema
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: schema-load
+  when: schema_needed
+
+- name: Import Observability
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: observability
+
