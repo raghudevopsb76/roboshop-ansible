@@ -1,18 +1,21 @@
+- name: Check NodeJS
+  ansible.builtin.shell: type node
+  ignore_errors: yes
+  out: node_stat
+
 - name: Disable NodeJS default Version
   ansible.builtin.shell: dnf module disable nodejs -y
+  when: node_stat.rc != 0
 
 - name: Enable NodeJS 18 Version
   ansible.builtin.shell: dnf module enable nodejs:18 -y
+  when: node_stat.rc != 0
 
 - name: Install NodeJS
   ansible.builtin.dnf:
     name: nodejs
     state: present
-
-- name: Import SystemD
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd
+  when: node_stat.rc != 0
 
 - name: Import Common Role - App Pre-requisites
   ansible.builtin.import_role:
@@ -22,6 +25,12 @@
     app_dir: "{{app_dir}}"
     component: "{{component}}"
     app_user: "{{app_user}}"
+
+- name: Import SystemD
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
+
 
 - name: Download NodeJS Dependencies
   ansible.builtin.shell: npm install
