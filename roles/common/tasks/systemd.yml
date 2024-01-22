@@ -6,6 +6,6 @@
 # TBD
 - name: Copy App StartUP Script
   ansible.builtin.template:
-    src: "{{ app_type }}".sh
+    src: "{{ app_type }}.sh"
     dest: /app/{{ app_type }}.sh
 
