@@ -3,7 +3,6 @@
     src: "{{component}}.service"
     dest: /etc/systemd/system/{{component}}.service
 
-# TBD
 - name: Copy App StartUP Script
   ansible.builtin.template:
     src: "{{ app_type }}.sh"
