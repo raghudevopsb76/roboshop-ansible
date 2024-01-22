@@ -8,3 +8,6 @@ service_name: catalogue
 
 schema_needed: true
 schema_type: mongo
+
+app_type: nodejs
+
