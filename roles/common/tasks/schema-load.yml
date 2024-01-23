@@ -12,7 +12,7 @@
         state: installed
 
     - name: Load Schema
-      ansible.builtin.shell: mongo --ssl --host {{ENDPOINT}} --sslCAFile /app/rds-combined-ca-bundle.pem --username {{USERNAME}} --password {{PASSWORD}}
+      ansible.builtin.shell: mongo --ssl --host {{ENDPOINT}} --sslCAFile /app/rds-combined-ca-bundle.pem --username {{USERNAME}} --password {{PASSWORD}} </app/schema/{{ component }}.js
       vars:
         ENDPOINT: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.catalogue.DOCDB_ENDPOINT', region='us-east-1' ) }}:27017"
         USERNAME: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.docdb.username', region='us-east-1' ) }}"
