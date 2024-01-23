@@ -26,7 +26,6 @@
   get_url:
     url: https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
     dest: /app/rds-combined-ca-bundle.pem
-  when: schema_needed and schema_type == "mongo"
 
 - name: Download NodeJS Dependencies
   ansible.builtin.shell: npm install
