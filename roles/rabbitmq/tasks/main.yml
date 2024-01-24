@@ -1,0 +1,30 @@
+- name: Get Repo File for RabbitMQ & Erlang
+  ansible.builtin.shell: curl -s {{ item}} | bash
+  loop:
+    - https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh
+    - https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh
+
+- name: Install RabbitMQ Server
+  ansible.builtin.dnf:
+    name: rabbitmq-server
+    state: installed
+
+- name: Start RabbitMQ service
+  ansible.builtin.systemd:
+    name: rabbitmq-server
+    state: started
+    enabled: yes
+
+- name: Setup Permissions for App User
+  community.rabbitmq.rabbitmq_user:
+    user: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.rabbitmq.username', region='us-east-1' ) }}"
+    password: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.rabbitmq.password', region='us-east-1' ) }}"
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+
+
+
+

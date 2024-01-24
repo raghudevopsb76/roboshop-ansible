@@ -11,15 +11,20 @@
     name: common
     tasks_from: app-prereq
 
+- name: Download Python Dependencies
+  ansible.builtin.shell: pip3.6 install -r requirements.txt ; pip3.6 install newrelic
+  args:
+    chdir: "{{app_dir}}"
+
+- name: Copy Newrelic Config file
+  ansible.builtin.template:
+    src: newrelic-python.ini
+    dest: /app/newrelic.ini
+
 - name: Import SystemD
   ansible.builtin.import_role:
     name: common
     tasks_from: systemd
-
-- name: Download Python Dependencies
-  ansible.builtin.shell: pip3.6 install -r requirements.txt
-  args:
-    chdir: "{{app_dir}}"
 
 - name: Import Schema
   ansible.builtin.import_role:

@@ -6,3 +6,6 @@ app_dir: /app
 app_user: roboshop
 service_name: payment
 schema_needed: false
+
+app_type: python
+

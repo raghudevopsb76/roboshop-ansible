@@ -5,7 +5,7 @@ User=roboshop
 Environment=REDIS_HOST="{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.cart.REDIS_HOST', region='us-east-1' ) }}"
 Environment=CATALOGUE_HOST="{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.cart.CATALOGUE_HOST', region='us-east-1' ) }}"
 Environment=CATALOGUE_PORT="{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.cart.CATALOGUE_PORT', region='us-east-1' ) }}"
-ExecStart=/bin/node /app/server.js
+ExecStart=/bin/bash /app/nodejs.sh
 SyslogIdentifier=cart
 
 [Install]
