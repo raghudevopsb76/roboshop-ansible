@@ -1,19 +1,18 @@
 # later this becomes check for java directly , until CI comes
-- name: Check Maven
-  ansible.builtin.shell: type mvn
-  ignore_errors: yes
-  register: mvn_stat
-
 - name: Install Maven
-  ansible.builtin.dnf:
-    name: maven
-    state: present
-  when: mvn_stat != 0
+  ansible.builtin.unarchive:
+    src: "{{maven_url}}"
+    dest: "/opt"
+    remote_src: yes
 
 - name: Install Java 17
   ansible.builtin.dnf:
     name: java-17-openjdk-devel
     state: installed
+
+- name: Stop
+  fail:
+    msg: Test
 
 - name: Import Common Role - App Pre-requisites
   ansible.builtin.import_role:
