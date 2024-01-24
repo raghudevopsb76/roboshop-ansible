@@ -31,16 +31,16 @@
     src: newrelic-java.yml
     dest: /opt/newrelic/newrelic.yml
 
-- name: Import SystemD
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd
-
 - name: Import Schema
   ansible.builtin.import_role:
     name: common
     tasks_from: schema-load
   when: schema_needed
+
+- name: Import SystemD
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
 
 - name: Import Observability
   ansible.builtin.import_role:
