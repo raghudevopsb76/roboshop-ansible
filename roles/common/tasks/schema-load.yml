@@ -26,7 +26,7 @@
         name: mysql
         state: installed
 
-    - name: Load Schema:
+    - name: Load Schema
       ansible.builtin.shell: mysql -h {{ DB_USER }} -u{{ DB_USER }} -p{{ DB_PASS }} < /app/schema/{{component}}.sql
       vars:
         DB_HOST: {{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.shipping.DB_HOST', region='us-east-1' ) }}
