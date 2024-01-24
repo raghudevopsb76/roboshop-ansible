@@ -10,10 +10,6 @@
     name: java-17-openjdk-devel
     state: installed
 
-- name: Stop
-  fail:
-    msg: Test
-
 - name: Import Common Role - App Pre-requisites
   ansible.builtin.import_role:
     name: common
@@ -25,7 +21,7 @@
     tasks_from: systemd
 
 - name: Download Maven Dependencies
-  ansible.builtin.shell: mvn clean package
+  ansible.builtin.shell: "{{maven_path}} clean package"
   args:
     chdir: "{{app_dir}}"
 
