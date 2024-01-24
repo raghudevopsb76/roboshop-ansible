@@ -7,3 +7,5 @@ app_user: roboshop
 service_name: shipping
 schema_needed: true
 schema_type: mysql
+
+app_type: java
