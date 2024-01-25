@@ -6,3 +6,5 @@ app_dir: /app
 app_user: roboshop
 service_name: dispatch
 schema_needed: false
+
+app_type: golang

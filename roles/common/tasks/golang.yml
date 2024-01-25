@@ -14,15 +14,15 @@
     name: common
     tasks_from: app-prereq
 
-- name: Import SystemD
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd
-
 - name: Download GoLang Dependencies
   ansible.builtin.shell: go mod init dispatch ; go get ;  go build
   args:
     chdir: "{{app_dir}}"
+
+- name: Import SystemD
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
 
 - name: Import Schema
   ansible.builtin.import_role:
