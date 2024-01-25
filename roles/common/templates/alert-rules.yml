@@ -1,7 +1,7 @@
 groups:
 - name: {{ component }}-{{env}}
   rules:
-  - alert: CPUUsageAlertWarning
+  - alert: {{component}}_CPUUsageAlertWarning
     expr: avg by (instance) (100 - (rate(node_cpu_seconds_total{mode="idle"}[5m]) * 100)) > 70
     for: 1m
     labels:
@@ -10,7 +10,7 @@ groups:
       env: {{ env }}
     annotations:
       summary: Warning | CPU Usage Alert
-  - alert: CPUUsageAlertCritical
+  - alert: {{component}}_CPUUsageAlertCritical
     expr: avg by (instance) (100 - (rate(node_cpu_seconds_total{mode="idle"}[5m]) * 100)) > 90
     for: 1m
     labels:
@@ -19,7 +19,7 @@ groups:
       env: {{ env }}
     annotations:
       summary: Critical | CPU Usage Alert
-  - alert: MemoryUsageAlertCritical
+  - alert: {{component}}_MemoryUsageAlertCritical
     expr: ((node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes) * 100 > 90
     for: 1m
     labels:
@@ -28,7 +28,7 @@ groups:
       env: {{ env }}
     annotations:
       summary: Critical | CPU Usage Alert
-  - alert: MemoryUsageAlertWarning
+  - alert: {{component}}_MemoryUsageAlertWarning
     expr: ((node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes) * 100 > 70
     for: 1m
     labels:
@@ -37,7 +37,7 @@ groups:
       env: {{ env }}
     annotations:
       summary: Warning | CPU Usage Alert
-  - alert: NetworkBWMonitorWaitQueue
+  - alert: {{component}}_NetworkBWMonitorWaitQueue
     expr: rate(node_ethtool_bw_in_allowance_exceeded[1m]) > 0
     for: 3m
     labels:
@@ -46,7 +46,7 @@ groups:
       env: {{ env }}
     annotations:
       summary: Critical | Network Wait Queue High
-  - alert: AppServiceMonitor
+  - alert: {{component}}_AppServiceMonitor
     expr: node_systemd_unit_state{exported_name="{{component}}.service",state="active"} == 0
     for: 1m
     labels:
@@ -54,4 +54,4 @@ groups:
       component: {{ component }}
       env: {{ env }}
     annotations:
-      summary: Critical | Backend NodeJS Service Down
+      summary: Critical | {{component}} Service Down
