@@ -1,10 +1,10 @@
 format_version: 10
 pipelines:
-  MutableDeployment_RoboShop:
+  MutableDeployment_frontend
     group: roboshop
     environment_variables:
       APP_VERSION: ""
-      COMPONENT: ""
+      COMPONENT: "frontend"
     materials:
       deploy:
         git: https://github.com/raghudevopsb76/roboshop-ansible
