@@ -1,0 +1,12 @@
+- name: Import Component
+  ansible.builtin.import_role:
+    name: "{{ component }}"
+    tasks_from: deploy
+
+- name: Restart Service
+  ansible.builtin.systemd:
+    name: "{{ service_name }}"
+    state: restarted
+    enabled: yes
+    daemon-reload: yes
+
