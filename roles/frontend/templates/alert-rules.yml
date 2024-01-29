@@ -1,0 +1,57 @@
+groups:
+- name: {{ component }}-{{env}}
+  rules:
+  - alert: {{component}}_CPUUsageAlertWarning
+    expr: avg by (instance) (100 - (rate(node_cpu_seconds_total{mode="idle", name="{{env}}-{{project_name}}-{{component}}"}[5m]) * 100)) > 70
+    for: 1m
+    labels:
+      severity: warning
+      component: {{ component }}
+      env: {{ env }}
+    annotations:
+      summary: Warning | CPU Usage Alert
+  - alert: {{component}}_CPUUsageAlertCritical
+    expr: avg by (instance) (100 - (rate(node_cpu_seconds_total{mode="idle", name="{{env}}-{{project_name}}-{{component}}"}[5m]) * 100)) > 90
+    for: 1m
+    labels:
+      severity: critical
+      component: {{ component }}
+      env: {{ env }}
+    annotations:
+      summary: Critical | CPU Usage Alert
+  - alert: {{component}}_MemoryUsageAlertCritical
+    expr: ((node_memory_MemFree_bytes{name="{{env}}-{{project_name}}-{{component}}"} + node_memory_Cached_bytes{name="{{env}}-{{project_name}}-{{component}}"} + node_memory_Buffers_bytes{name="{{env}}-{{project_name}}-{{component}}"}) / node_memory_MemTotal_bytes{name="{{env}}-{{project_name}}-{{component}}"}) * 100 > 90
+    for: 1m
+    labels:
+      severity: critical
+      component: {{ component }}
+      env: {{ env }}
+    annotations:
+      summary: Critical | CPU Usage Alert
+  - alert: {{component}}_MemoryUsageAlertWarning
+    expr: ((node_memory_MemFree_bytes{name="{{env}}-{{project_name}}-{{component}}"} + node_memory_Cached_bytes{name="{{env}}-{{project_name}}-{{component}}"} + node_memory_Buffers_bytes{name="{{env}}-{{project_name}}-{{component}}"}) / node_memory_MemTotal_bytes{name="{{env}}-{{project_name}}-{{component}}"}) * 100 > 70
+    for: 1m
+    labels:
+      severity: warning
+      component: {{ component }}
+      env: {{ env }}
+    annotations:
+      summary: Warning | CPU Usage Alert
+  - alert: {{component}}_NetworkBWMonitorWaitQueue
+    expr: rate(node_ethtool_bw_in_allowance_exceeded{name="{{env}}-{{project_name}}-{{component}}"}[1m]) > 0
+    for: 3m
+    labels:
+      severity: critical
+      component: {{ component }}
+      env: {{ env }}
+    annotations:
+      summary: Critical | Network Wait Queue High
+  - alert: {{component}}_AppServiceMonitor
+    expr: node_systemd_unit_state{exported_name="{{component}}.service",state="active"} == 0
+    for: 1m
+    labels:
+      severity: critical
+      component: {{ component }}
+      env: {{ env }}
+    annotations:
+      summary: Critical | {{component}} Service Down
