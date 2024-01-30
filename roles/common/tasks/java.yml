@@ -1,9 +1,11 @@
 # later this becomes check for java directly , until CI comes
-- name: Install Maven
-  ansible.builtin.unarchive:
-    src: "{{maven_url}}"
-    dest: "/opt"
-    remote_src: yes
+
+# After CI release, we commenting this
+# - name: Install Maven
+#   ansible.builtin.unarchive:
+#     src: "{{maven_url}}"
+#     dest: "/opt"
+#     remote_src: yes
 
 - name: Install Java 17
   ansible.builtin.dnf:
@@ -15,10 +17,11 @@
     name: common
     tasks_from: app-prereq
 
-- name: Download Maven Dependencies
-  ansible.builtin.shell: "{{maven_path}} clean package && mv target/{{component}}-1.0.jar {{component}}.jar "
-  args:
-    chdir: "{{app_dir}}"
+# After CI release, we commenting this
+# - name: Download Maven Dependencies
+#   ansible.builtin.shell: "{{maven_path}} clean package && mv target/{{component}}-1.0.jar {{component}}.jar "
+#   args:
+#     chdir: "{{app_dir}}"
 
 - name: Download NewRelic agent
   ansible.builtin.unarchive:
