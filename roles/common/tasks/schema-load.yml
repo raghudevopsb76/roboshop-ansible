@@ -26,9 +26,20 @@
         name: mysql
         state: installed
 
+    - name: Check if the schema exists
+      ansible.builtin.shell: echo 'show databases' | mysql -h {{ DB_HOST }} -u{{ DB_USER }} -p{{ DB_PASS }} | grep cities
+      vars:
+        DB_HOST: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.shipping.DB_HOST', region='us-east-1' ) }}"
+        DB_USER: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.rds.username', region='us-east-1' ) }}"
+        DB_PASS: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.rds.password', region='us-east-1' ) }}"
+      ignore_errors: yes
+      register: out
+
     - name: Load Schema
       ansible.builtin.shell: mysql -h {{ DB_HOST }} -u{{ DB_USER }} -p{{ DB_PASS }} < /app/schema/{{component}}.sql
       vars:
         DB_HOST: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.shipping.DB_HOST', region='us-east-1' ) }}"
         DB_USER: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.rds.username', region='us-east-1' ) }}"
         DB_PASS: "{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{project_name}}.rds.password', region='us-east-1' ) }}"
+      when: out.rc != 0
+
